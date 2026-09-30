@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AgriSmart Advisory"
+description = "An AI-powered crop management and diagnostic system for farmers, agronomists, and extension workers. Manage farm and soil profiles, generate crop advisories, diagnose plant health from images, calculate fertilizer plans, and track seasonal operations."
+version = "1.0.0"
+id = "artifacts/agrismart-advisory"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26153
+
+[services.development]
+run = "pnpm --filter @workspace/agrismart-advisory run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/agrismart-advisory", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/agrismart-advisory/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26153"
+BASE_PATH = "/"
